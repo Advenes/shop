@@ -18,7 +18,7 @@ namespace Color {
 class Product {
 public:
 	Product() {};
-	Product(std::string name,float price):name(name),price(price) {	
+	Product(std::string name, float price) :name(name), price(price) {
 	}
 	std::string name;
 	float price;
@@ -27,12 +27,11 @@ public:
 class Shop {
 public:
 	Shop() {
-		std::cout << "D - Dodaj do koszyka | P - Pokaz koszyk | U - Usun z koszyka | Z - Zaplac | W - Wyjdz | " << NL;
+		std::cout << "D - Dodaj do koszyka | P - Pokaz koszyk | U - Usun z koszyka | Z - Zaplac | W - Wyjdz | i - Instrukcja" << NL;
 		showProducts();
-		std::cout << last_elem;
 	}
 	static const int size = 5;
-	std::string cart[5] = {"0","0","0","0","0"};
+	std::string cart[5] = { "0","0","0","0","0" };
 	const std::string all_items[size] = { "woda","chleb","sok","czekolada","maslo" };
 	const float all_items_prices[size] = { 3,10,5,6,11 };
 	int last_elem = 0;
@@ -46,7 +45,7 @@ public:
 	void addToCart(std::string product) {
 		for (int i = 0; i < size; i++) {
 			if (product == all_items[i]) {
-				allProducts[last_elem].name = product; 
+				allProducts[last_elem].name = product;
 				allProducts[last_elem].price = all_items_prices[i];
 				cart[last_elem] = product;
 				last_elem++;
@@ -70,8 +69,8 @@ public:
 	void dropFromCart(std::string product) {
 		for (int i = 0; i < size; i++) {
 			if (cart[i] == product) {
-				cart[i] = cart[last_elem-1];
-				allProducts[i] = allProducts[last_elem-1];
+				cart[i] = cart[last_elem - 1];
+				allProducts[i] = allProducts[last_elem - 1];
 				last_elem--;
 				break;
 			}
@@ -91,10 +90,10 @@ public:
 		while (money < cost) {
 			std::cin >> money;
 			if (money >= cost) {
-				std::cout << "Kupiles " << last_elem << " produtow. Reszta to : " << money - cost << " zł";
+				std::cout << "Kupiles " << last_elem << " produtow. Reszta to : " << money - cost << " zl";
 			}
 			else {
-				std::cout << "za malo kasy!!!" << NL;
+				std::cout << "za malo pieniedzy, potrzebujesz: " << cost << " zl" << NL;
 			}
 		}
 	}
@@ -135,6 +134,9 @@ int main() {
 		}
 		if (key == 'l') {
 			shop.showProducts();
+		}
+		if (key == 'i') {
+			std::cout << "D - Dodaj do koszyka | P - Pokaz koszyk | U - Usun z koszyka | Z - Zaplac | W - Wyjdz | I - Instrukcja" << NL;
 		}
 	}
 }
