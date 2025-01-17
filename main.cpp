@@ -27,7 +27,6 @@ public:
 class Shop {
 public:
 	static const int size = 5;
-	Product cart[size];
 
 public:
 	Shop() {
@@ -112,6 +111,7 @@ public:
 	}
 
 private:
+	Product cart[size];
 	std::string product;
 	int last_elem = 0;
 	const std::string all_items[size] = { "woda","chleb","sok","czekolada","maslo" };
@@ -120,33 +120,32 @@ private:
 
 int main() {
 	Shop shop;
-	std::string product;
 	// 		std::cout << "D - Dodaj do koszyka | P - Pokaz koszyk | U - Usun z koszyka | Z - Zaplac | W - Wyjdz | L - Pokaz Produkty";;
 	while (isRunning) {
 		char key = _getch();
-		if (key == 'd') {
+		switch (key) {
+		case 'd':
 			shop.addToCart();
 			shop.showCart();
-		}
-		if (key == 'p') {
+			break;
+		case 'p':
 			shop.showCart();
-		}
-		if (key == 'u') {
+			break;
+		case 'u':
 			shop.dropFromCart();
-		}
-		if (key == 'z') {
+			break;
+		case 'z':
 			shop.pay();
-
-		}
-		if (key == 'w') {
+			break;
+		case 'w':
 			shop.leaveShop();
 			return 0;
-		}
-		if (key == 'l') {
+		case 'l':
 			shop.showProducts();
-		}
-		if (key == 'i') {
+			break;
+		case 'i':
 			shop.showInstruction();
+			break;
 		}
 	}
 }
