@@ -26,15 +26,14 @@ public:
 
 class Shop {
 public:
+	static const int size = 5;
+	Product cart[size];
+
+public:
 	Shop() {
-		std::cout << "D - Dodaj do koszyka | P - Pokaz koszyk | U - Usun z koszyka | Z - Zaplac | W - Wyjdz | i - Instrukcja" << NL;
+		showInstruction();
 		showProducts();
 	}
-	static const int size = 5;
-	std::string cart[5] = { "0","0","0","0","0" };
-	const std::string all_items[size] = { "woda","chleb","sok","czekolada","maslo" };
-	const float all_items_prices[size] = { 3,10,5,6,11 };
-	int last_elem = 0;
 
 	void showAll() {
 		for (int i = 0; i < size; i++) {
@@ -42,12 +41,14 @@ public:
 		}
 	}
 
-	void addToCart(std::string product) {
+	void addToCart() {
+		std::cout << "Wprowadz produkt: " << NL;
+		std::cin >> product;
+		std::cout << NL;
 		for (int i = 0; i < size; i++) {
 			if (product == all_items[i]) {
-				allProducts[last_elem].name = product;
-				allProducts[last_elem].price = all_items_prices[i];
-				cart[last_elem] = product;
+				cart[last_elem].name = product;
+				cart[last_elem].price = all_items_prices[i];
 				last_elem++;
 				break;
 			}
@@ -61,16 +62,18 @@ public:
 	void showCart() {
 		std::cout << NL;
 		for (int i = 0; i < last_elem; i++) {
-			std::cout << i + 1 << " | " << cart[i] << std::endl;
+			std::cout << i + 1 << " | " << cart[i].name << std::endl;
 		}
 		std::cout << NL;
 	}
 
-	void dropFromCart(std::string product) {
+	void dropFromCart() {
+		std::cout << "Wprowadz produkt do usuniecia: " << NL;
+		std::cin >> product;
+		std::cout << NL;
 		for (int i = 0; i < size; i++) {
-			if (cart[i] == product) {
+			if (cart[i].name == product) {
 				cart[i] = cart[last_elem - 1];
-				allProducts[i] = allProducts[last_elem - 1];
 				last_elem--;
 				break;
 			}
@@ -82,23 +85,37 @@ public:
 	}
 
 	void pay() {
-		float cost = 0;
-		float money = 0;
-		for (int i = 0; i < last_elem; i++) {
-			cost += allProducts[i].price;
+		if (last_elem == 0) {
+			std::cout << "Nie masz niczego w koszyku." << NL;
 		}
-		while (money < cost) {
-			std::cin >> money;
-			if (money >= cost) {
-				std::cout << "Kupiles " << last_elem << " produtow. Reszta to : " << money - cost << " zl";
+		else {
+			std::cout << "Jakim banknotem chcesz zaplacic: " << NL;
+			float cost = 0;
+			float money = 0;
+			for (int i = 0; i < last_elem; i++) {
+				cost += cart[i].price;
 			}
-			else {
-				std::cout << "za malo pieniedzy, potrzebujesz: " << cost << " zl" << NL;
+			while (money < cost) {
+				std::cin >> money;
+				if (money >= cost) {
+					std::cout << "Kupiles " << last_elem << " produtow. Reszta to : " << money - cost << " zl";
+				}
+				else {
+					std::cout << "za malo pieniedzy, potrzebujesz: " << cost << " zl" << NL;
+				}
 			}
 		}
 	}
+
+	void showInstruction() {
+		std::cout << "D - Dodaj do koszyka | P - Pokaz koszyk | U - Usun z koszyka | Z - Zaplac | W - Wyjdz | I - Instrukcja | L - Pokaz produkty" << NL;
+	}
+
 private:
-	Product allProducts[5];
+	std::string product;
+	int last_elem = 0;
+	const std::string all_items[size] = { "woda","chleb","sok","czekolada","maslo" };
+	const float all_items_prices[size] = { 3,10,5,6,11 };
 };
 
 int main() {
@@ -108,23 +125,16 @@ int main() {
 	while (isRunning) {
 		char key = _getch();
 		if (key == 'd') {
-			std::cout << "Wprowadz produkt: " << NL;
-			std::cin >> product;
-			std::cout << NL;
-			shop.addToCart(product);
+			shop.addToCart();
 			shop.showCart();
 		}
 		if (key == 'p') {
 			shop.showCart();
 		}
 		if (key == 'u') {
-			std::cout << "Wprowadz produkt do usuniecia: " << NL;
-			std::cin >> product;
-			std::cout << NL;
-			shop.dropFromCart(product);
+			shop.dropFromCart();
 		}
 		if (key == 'z') {
-			std::cout << "Jakim banknotem chcesz zaplacic: " << NL;
 			shop.pay();
 
 		}
@@ -136,7 +146,7 @@ int main() {
 			shop.showProducts();
 		}
 		if (key == 'i') {
-			std::cout << "D - Dodaj do koszyka | P - Pokaz koszyk | U - Usun z koszyka | Z - Zaplac | W - Wyjdz | I - Instrukcja" << NL;
+			shop.showInstruction();
 		}
 	}
 }
